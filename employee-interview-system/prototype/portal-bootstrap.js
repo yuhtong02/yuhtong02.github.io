@@ -20,7 +20,7 @@ if(new URLSearchParams(location.search).get('entry')==='portal'){
  const gate=document.createElement('style');gate.textContent='html[data-portal-loading] main{visibility:hidden!important}html[data-portal-loading] body{overflow-y:scroll}.portal-loading-status{max-width:700px;margin:32px auto;padding:20px}.portal-loading-status button{margin:12px 8px 0 0}';document.head.append(gate);
  window.HRPortalBoot={
   async styles(){await Promise.all([...document.querySelectorAll('link[rel=stylesheet]')].map(link=>link.sheet?Promise.resolve():new Promise((resolve,reject)=>{link.addEventListener('load',resolve,{once:true});link.addEventListener('error',()=>reject(Error('介面樣式無法載入，請重新載入。')),{once:true})})))},
-  ready(){delete document.documentElement.dataset.portalLoading;document.getElementById('portalLoadingStatus')?.remove();document.body.dataset.portalReady='true'},
+  ready(){delete document.documentElement.dataset.portalLoading;document.getElementById('portalLoadingStatus')?.remove();document.body.dataset.portalReady='true';window.HRGoogleBootstrapDone?.()},
   fail(error){const panel=document.getElementById('portalLoadingStatus');if(panel){panel.replaceChildren();const text=document.createElement('p');text.setAttribute('role','alert');text.textContent=error.message||'畫面無法載入，請重新載入。';const retry=document.createElement('button');retry.textContent='重新載入';retry.onclick=()=>location.reload();const logout=document.createElement('a');logout.href='/';logout.textContent='返回登入入口';panel.append(text,retry,logout)}}
  };
  document.addEventListener('DOMContentLoaded',()=>{
