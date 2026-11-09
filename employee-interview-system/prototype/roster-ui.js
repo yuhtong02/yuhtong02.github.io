@@ -6,7 +6,7 @@ window.HRRosterReady=(async()=>{
  const config=window.HRPortalConfig.normalize(await request('/api/config'));
  function message(id,text,error=false){$(id).textContent=text;$(id).classList.toggle('error-message',error)}
  function cell(row,text){const td=document.createElement('td');td.textContent=text??'';row.append(td);return td}
- async function download(url){const r=await fetch(url);if(!r.ok)throw Error('下載未完成，請確認權限');const u=URL.createObjectURL(await r.blob()),a=document.createElement('a');a.href=u;a.download=r.headers.get('Content-Disposition')?.match(/filename="([^"]+)"/)?.[1]||'roster.csv';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)}
+ async function download(url){const r=await fetch(url,url.startsWith('/api/roster/export')?{method:'POST',body:'{}'}:{});if(!r.ok)throw Error('下載未完成，請確認權限');const u=URL.createObjectURL(await r.blob()),a=document.createElement('a');a.href=u;a.download=r.headers.get('Content-Disposition')?.match(/filename="([^"]+)"/)?.[1]||'roster.csv';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)}
  if(can('employee')){
   const panel=document.createElement('section');panel.id='rosterPanel';panel.className='admin-section';panel.innerHTML=`
    <div class="section-heading"><h2>員工名冊</h2><button type="button" id="newEmployee">新增員工</button></div>
