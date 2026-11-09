@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head><meta name="referrer" content="no-referrer"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src https://script.google.com https://script.googleusercontent.com; base-uri 'none'; form-action 'none'; frame-src 'self'; object-src 'none'"><script src="/employee-interview-system/config.js"></script><script src="/employee-interview-system/runtime.js"></script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="portal-config.js"></script><script src="portal-bootstrap.js"></script>
+<title>員工面談暨考績自評</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f5f7fb;color:#202a37;font-family:system-ui,"Noto Sans TC",sans-serif}main{max-width:720px;margin:auto;padding:22px 16px 60px}header{margin-bottom:22px}h1{font-size:23px;margin-bottom:8px}h2{font-size:17px;margin:0 0 14px}.hint{color:#667085;font-size:13px}.card{background:white;border:1px solid #e5e9f0;border-radius:14px;padding:20px;margin:16px 0}label{display:block;font-weight:600;font-size:14px;margin:14px 0 5px}input,textarea,select{width:100%;border:1px solid #cbd5e1;border-radius:8px;padding:11px;font:inherit;background:white}textarea{min-height:92px;resize:vertical}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:600px){.grid{grid-template-columns:1fr}}button{padding:11px 18px;border:0;border-radius:9px;font:inherit;cursor:pointer;background:#183153;color:white}button.secondary{background:#e9eef5;color:#243347}.actions{display:flex;gap:10px;flex-wrap:wrap}.score{display:flex;gap:12px;align-items:center;justify-content:space-between;border-bottom:1px solid #eef1f5;padding:8px 0}.score input{max-width:110px}output{font-weight:700}.rubric{margin:12px 0;padding:14px;border:1px solid #e2e8f0;border-radius:10px}.rubric-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.rubric-head input{max-width:115px;border:2px solid #d97706;background:#fffbeb;font-weight:700}.rubric-head label{color:#9a3412;font-weight:800}.rubric-head .score-error{margin:0 4px 0 auto;color:#b91c1c;font-size:13px;font-weight:700}.rubric-head select{max-width:115px;border:2px solid #d97706;background:#fffbeb;font-weight:700}.rubric-head input.invalid{border-color:#dc2626;background:#fef2f2}.score-error{font-size:12px;color:#b91c1c;margin:5px 0 0;font-weight:600}.rubric:focus-within{border-color:#f59e0b;box-shadow:0 0 0 2px #fef3c7}.score-focus{display:inline-block;background:#fef3c7;color:#92400e;padding:5px 10px;border-radius:7px;font-size:13px;font-weight:700;margin-bottom:8px}.rubric-desc{font-size:13px;color:#475467;margin:6px 0 10px}.rubric table{width:100%;border-collapse:collapse;font-size:13px}.rubric th,.rubric td{border:1px solid #e2e8f0;padding:7px 5px;text-align:center}.rubric th{background:#f8fafc}.rubric small{color:#667085}.signature-pad{width:100%;height:170px;border:2px dashed #94a3b8;border-radius:10px;background:#fff;touch-action:none;display:block}.signature-pad.confirmed{border:2px solid #16a34a;background:#f0fdf4}.signature-controls{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}.signature-state{font-size:13px;color:#475467;margin-top:8px}#checkStatus{font-size:13px;font-weight:700}.required-error{border:2px solid #dc2626!important;background:#fff7f7!important}.field-error{font-size:12px;color:#b91c1c;font-weight:700;margin:4px 0}.warning{background:#fff7e6;border:1px solid #f4d398;border-radius:9px;padding:12px;font-size:13px}
+
+/* Single-site HR demo shell; NOT an authentication boundary. */
+.admin-nav #showEmployees{background:#dbeafe;color:#1d4ed8;border:1px solid #93c5fd;font-weight:700}.admin-nav #showAccounts{background:#dcfce7;color:#166534;border:1px solid #86efac;font-weight:700}.admin-nav #showReviews{background:#f3e8ff;color:#7e22ce;border:1px solid #d8b4fe;font-weight:700}.admin-nav #showMultiSite{background:#ffedd5;color:#9a3412;border:1px solid #fdba74;font-weight:700}.admin-nav #showAcceptance{background:#e0f2fe;color:#075985;border:1px solid #7dd3fc;font-weight:700}.admin-nav button.active{outline:2px solid currentColor;outline-offset:1px}
+.period-preview{margin:0 0 14px;border:1px solid #d5ddea;background:#f8fafc;padding:12px;border-radius:10px;font-size:13px}.period-preview strong{display:block;margin-bottom:6px}.period-preview .preview-note{margin-top:8px;color:#667085}.period-preview .preview-state{font-weight:700;margin:8px 0}.period-preview select{max-width:250px;padding:7px;font-size:13px}
+
+.admin-nav{display:flex;align-items:center;gap:9px;flex-wrap:wrap;padding:12px 18px;background:#fff;border-bottom:1px solid #e5e9f0}.admin-nav button{font-size:13px;padding:9px 12px}.admin-nav .hint{margin-left:auto}.admin-frame{height:calc(100vh - 120px)}
+.site-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.site-header h1{margin-top:0}.admin-entry{white-space:nowrap;background:#e9eef5;color:#243347;font-size:13px;padding:9px 12px}.admin-shell[hidden]{display:none!important}.admin-shell{position:fixed;inset:0;background:#f5f7fb;z-index:30;overflow:auto}.admin-top{position:sticky;top:0;z-index:1;background:#fff;border-bottom:1px solid #e5e9f0;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}.admin-top strong{font-size:16px}.admin-top button{padding:8px 12px;font-size:13px}.admin-intro{max-width:900px;margin:22px auto;padding:0 18px}.admin-intro .warning{margin:12px 0}.admin-actions{display:flex;gap:10px;flex-wrap:wrap}.admin-frame{display:block;width:100%;height:calc(100vh - 65px);border:0;background:#f5f7fb}.admin-login{max-width:470px;margin:45px auto;background:white;border:1px solid #e5e9f0;border-radius:14px;padding:24px}.admin-login h2{margin-top:0}.admin-login p{line-height:1.65}.admin-login button{width:100%}@media(max-width:600px){.site-header{flex-wrap:wrap}.admin-entry{margin-left:auto}.admin-login{margin:20px 12px}}
+
+.brand-lockup{display:flex;align-items:center;gap:14px}.company-logo{object-fit:contain;flex:none;background:transparent;max-width:58px;height:auto}.company-logo[hidden]{display:none!important}@media(max-width:600px){.company-logo{max-width:44px}.brand-lockup{gap:10px}}
+/* Unified visual refresh: calm navy + teal, readable forms and consistent surfaces. */
+:root{--brand:#174b59;--brand-dark:#103946;--teal:#0d766d;--ink:#213544;--muted:#617485;--line:#dbe6e9;--canvas:#f2f7f7;--focus:#b9e5de}
+body{background:var(--canvas);color:var(--ink);line-height:1.65}
+main{max-width:1120px;padding:30px 24px 76px}
+h1{font-size:clamp(23px,2.2vw,29px);letter-spacing:.02em;color:var(--brand-dark);font-weight:800}
+h2{color:var(--brand-dark);font-weight:750;letter-spacing:.015em}
+.card,.panel{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 5px 20px rgba(22,69,78,.045);padding:24px;margin-top:18px}
+.card h2,.panel h2{padding-bottom:12px;border-bottom:1px solid #edf2f3;margin-bottom:17px}
+.muted,.hint,.small{color:var(--muted)}
+input,select,textarea{border:1px solid #cbdadd;border-radius:9px;background:#fff;color:var(--ink);min-height:42px}
+input:focus,select:focus,textarea:focus{outline:3px solid var(--focus);outline-offset:0;border-color:var(--teal)}
+button{background:var(--brand);border-radius:9px;font-weight:650;transition:background .15s,transform .15s}
+button:hover:not(:disabled){background:var(--brand-dark)}
+button.secondary{background:#eaf2f3;color:var(--brand-dark)}
+button.secondary:hover:not(:disabled){background:#dcebec}
+button:focus-visible,a:focus-visible{outline:3px solid #56c7b5;outline-offset:3px}
+th{background:#f0f6f6;color:#35535c;font-weight:750}
+td,th{border-bottom-color:#e7eeee}
+table tbody tr:hover{background:#f7fbfa}
+.warning,.warn,.banner{background:#fff9ed;border:1px solid #efdfb9;color:#705729;border-radius:12px}
+.actions{gap:10px}
+@media(max-width:720px){main{padding:18px 13px 50px}.card,.panel{padding:17px;border-radius:13px}h1{font-size:23px}}
+
+
+main{max-width:880px}
+.site-header{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:12px 0 16px;border-bottom:2px solid #d8e8e8}
+.site-header h1{margin:0 0 4px}.site-header .hint{margin:0}
+.admin-entry{background:#e7f2f1!important;color:#13594f!important;border:1px solid #b8dad3!important}
+.admin-top{background:#fff;border-bottom:1px solid var(--line)}
+.admin-nav{background:#fff!important;gap:10px!important;padding:15px 22px!important;border-bottom:1px solid var(--line)!important}
+.admin-nav button{background:#f2f6f7!important;color:#31535b!important;border:1px solid #dbe8e9!important;border-radius:10px!important}
+.admin-nav button.active{background:#dcefeb!important;color:#075d55!important;outline:2px solid #9dcfc5!important}
+.admin-nav button:hover{background:#e6f2f0!important}
+.period-preview{border-color:#c9dfe0;background:#f4faf9}
+.rubric{border-color:#dce7e9;border-radius:12px;background:#fff}
+.rubric-head input,.rubric-head select{border-color:#c58b32;background:#fff9eb}
+.score-focus{background:#fff3d8;color:#845514}
+@media(max-width:720px){.site-header{align-items:flex-start;flex-direction:column}.admin-nav{padding:12px!important}}
+
+
+.employee-footer{display:flex;justify-content:center;padding:26px 12px 12px;border-top:1px solid #dbe6e9;margin-top:28px}.employee-footer .admin-entry{background:transparent!important;border:0!important;color:#72848b!important;font-size:12px!important;font-weight:500;padding:7px 10px}.employee-footer .admin-entry:hover{color:#174b59!important;text-decoration:underline;background:transparent!important}
+
+/* Keep HR title and all six tabs visible while scrolling the admin shell */
+.admin-top{position:sticky!important;top:0!important;z-index:12!important;background:#fff!important}.admin-nav{position:sticky!important;top:58px!important;z-index:11!important;background:#fff!important;box-shadow:0 3px 10px rgba(20,55,62,.06)}#adminDemo{display:contents}#adminDemo[hidden]{display:none!important}.admin-frame{height:calc(100vh - 180px)!important;min-height:500px;overflow:auto}@media(max-width:700px){.admin-nav{top:58px!important;overflow-x:auto;flex-wrap:nowrap!important}.admin-nav button{white-space:nowrap}.admin-nav .hint{display:none}.admin-frame{height:calc(100vh - 160px)!important;min-height:350px}}
+
+/* Login preview is intentionally disabled until server-side authentication exists */
+.login-preview{padding:15px 0 8px}.login-preview label{margin-top:10px}.login-preview input{background:#f2f5f6;color:#71818a}.login-preview button{width:100%;margin-top:14px;opacity:.55;cursor:not-allowed}.demo-divider{text-align:center;border-top:1px solid #dce5e7;margin:20px 0 12px;padding-top:12px;color:#667b82;font-size:12px}
+</style></head>
+<body><main>
+<header class="site-header"><div class="brand-lockup"><img class="company-logo" src="assets/yuhtong-logo-transparent.png" alt="鈺通營造公司 LOGO" width="58" height="65"><div><h1>員工面談暨考績自評</h1><p class="hint">員工面談與考績管理｜尚未連接公司員工名單或後端，請勿填寫真實個資</p></div></header>
+<section id="identityDemo" hidden><form id="identityDemoForm"></form></section>
+<div class="warning">目前僅供演練畫面與計算功能。瀏覽器暫存不是正式安全的跨裝置草稿恢復機制。</div><aside class="period-preview" aria-label="員工端開放狀態預覽"><strong>員工端狀態預覽（僅示意，不限制下方演練表單）</strong><label for="previewMode">預覽情境</label><select id="previewMode"><option value="saved">依人事後台演練設定</option><option value="draft">尚未開放</option><option value="open">開放填寫</option><option value="closed">已截止／關閉</option><option value="submitted">員工已送出</option></select><div id="previewState" class="preview-state" role="status"></div><div class="preview-note">正式版才會由伺服器判斷是否可填寫。此處不代表員工已登入、送出或取得考績資料。</div></aside>
+<section class="card"><h2>一、基本資料</h2><div><label for="role">考績表類別（演練選擇）</label><select id="role"><option value="staff">一般職員</option><option value="supervisor">主管人員</option></select><p class="hint">演練環境手動切換；正式版將依員工資料帶入。</p></div><div class="grid"><div><label for="name">姓名</label><input id="name" autocomplete="off" placeholder="演練請用假名"></div><div><label for="department">部門</label><input id="department" placeholder="待後端自動帶入" readonly></div></div><p class="hint">正式版輸入姓名後才由後端查詢；同名需再核對，不向瀏覽器提供整份名單。</p></section>
+<section class="card"><h2>二、員工面談</h2><div id="interview"></div></section>
+<section class="card"><h2>三、工作成果</h2><p class="hint">依 Word 原表格逐項填寫，共 4 項。成果可說明進度、品質、效率、成本節省、風險控管、流程改善或其他具體貢獻。</p><div id="projectRows"></div></section>
+<section class="card"><h2>四、考績自評</h2><p class="hint">依所選類別顯示原始 Word 的八項考核標準、評語及分數。本頁僅供演練。</p><div class="score-focus">★ 請注意：每題「自評分數」請填在橘黃色欄位</div><div id="scores"></div><p id="scoreProgress" class="hint">已完成 0／8 題</p><p>系統自動加總：<output id="sum">0</output> 分</p><label><input id="override" type="checkbox" style="width:auto"> 人工調整總分</label><div id="manualBox" hidden><label for="manual">調整後分數</label><input id="manual" type="number" min="0" step="0.5"><label for="reason">調整原因</label><textarea id="reason"></textarea></div><p>採用總分：<output id="effective">0</output> 分</p><p id="scoreCompletion" class="hint">自評尚未完成</p><div id="submissionReceipt" class="submission-receipt" role="status"></div><p class="hint" id="confirmationMeaning"></p></section>
+<section class="card"><div class="actions"><button id="save" type="button">暫存草稿</button><button id="resume" class="secondary" type="button">恢復已存草稿</button><button id="reset" class="secondary" type="button">清除本機演練草稿</button><button id="check" class="secondary" type="button">檢查填寫完整性</button><button id="submit" class="secondary" type="button" disabled>正式送出（尚未開放）</button></div><p id="checkStatus" role="status"></p><p id="draftInfo" class="hint">尚無暫存紀錄</p><p id="status" class="hint" role="status"></p></section>
+<footer class="employee-footer"><button type="button" class="admin-entry" id="openAdmin">管理後台入口</button></footer>
+</main>
+<div id="adminShell" class="admin-shell" hidden>
+<div class="admin-top"><strong>鈺通營造｜人事管理後台</strong><button type="button" class="secondary" id="exitAdmin">← 返回員工填寫頁</button></div>
+<div id="adminLogin" class="admin-login"><h2>人事後台入口</h2><p class="warning">這是畫面整合演練，<strong>尚未建立真正的帳號、密碼或權限驗證</strong>。請勿輸入真實帳密或員工資料。</p><p class="hint">依目前公司 POP/SMTP Outlook 信箱環境，先預覽「公司信箱＋一次性驗證碼」登入流程；正式寄信與驗證服務尚未建立。</p><div class="login-preview" aria-label="公司信箱一次性驗證碼登入流程預覽"><label for="previewAdminEmail">公司 Outlook 信箱</label><input id="previewAdminEmail" type="email" placeholder="正式版啟用後填寫" disabled autocomplete="off"><button type="button" disabled title="尚未串接寄信與身分驗證服務">寄送一次性驗證碼（尚未啟用）</button><label for="previewAdminCode">電子郵件驗證碼</label><input id="previewAdminCode" inputmode="numeric" type="text" placeholder="正式版啟用後填寫" disabled autocomplete="off"><button type="button" disabled title="尚未建立伺服端驗證與權限檢查">驗證並登入（尚未啟用）</button><p class="hint">正式版規劃：驗證碼限時、限次數且僅能使用一次；驗證通過後，系統仍會檢查是否為已授權的人事帳號。此頁目前不寄信、不驗證，也不收集任何帳號資料。</p></div><div class="demo-divider">以下僅供測試版面與功能流程</div><button type="button" id="enterDemoAdmin">進入後台示意畫面（測試）</button></div>
+<div id="adminDemo" hidden><nav class="admin-nav" aria-label="人事後台功能"><button type="button" class="secondary" id="showEmployees">員工資料管理</button><button type="button" class="secondary" id="showAccounts">帳號與權限管理</button><button type="button" class="secondary" id="showReviews">考績年度／資料查詢</button><button type="button" class="secondary" id="showMultiSite">多工地評核管理</button><button type="button" class="secondary" id="showAcceptance">人事流程試行</button><button type="button" class="secondary" id="showMaintenance">系統維護中心</button><span class="hint">正式收件、Word 下載及後端權限：尚未串接</span></nav><iframe id="adminFrame" class="admin-frame" title="人事後台功能頁面" loading="lazy"></iframe></div>
+</div>
+<script src="inline-integrated-demo-1.js"></script>
+<!-- Original form preserved verbatim above; mock workflow is an additive adapter. -->
+<script src="original-form-schema.js"></script>
+<script src="integrated-demo.js"></script>
+<script src="original-form-workflow.js"></script>
+<script src="/employee-interview-system/offline/credentials-ui.js"></script></body></html>
