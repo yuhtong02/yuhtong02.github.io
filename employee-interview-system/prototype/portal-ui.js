@@ -5,7 +5,7 @@
  const basicHint=document.getElementById('department').closest('section').querySelector(':scope > p.hint');if(basicHint)basicHint.textContent='姓名、部門及本期表單由後端依模擬登入身分帶入。';
  const el=id=>document.getElementById(id),banner=document.createElement('section');banner.className='site-toolbar';banner.id='portalBanner';
  const title=document.createElement('h2');title.textContent=({employee:'我的面談考績表',hr:'一般人事後台',super:'最高人事後台'})[c.role];
- const notice=document.createElement('p');notice.textContent=c.id;
+ const notice=document.createElement('p');notice.textContent=c.canManage&&Number.isFinite(c.expiresAt)?'人事登入有效至 '+new Date(c.expiresAt).toLocaleString('zh-TW',{timeZone:'Asia/Taipei'})+' · 閒置'+(c.idleTimeoutMinutes||15)+'分鐘自動失效':c.id;
  const exit=document.createElement('button');exit.type='button';exit.textContent='登出並返回入口';exit.id='portalLogout';exit.onclick=()=>el('logoutMock').click();banner.append(title,notice,exit);document.querySelector('main').prepend(banner);
  const identity=document.createElement('p');identity.id='formIdentity';identity.textContent='本期：'+c.activePeriod+' · '+(el('role').value==='supervisor'?'主管人員面談考績表':'一般職員面談考績表');banner.after(identity);
  if(c.role!=='employee'){
